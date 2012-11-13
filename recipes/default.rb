@@ -9,11 +9,11 @@ package "m4"
 package "lua5.2"
 package "libgoogle-perftools-dev"
 
-bash "Create_Model_Library" do
+bash "Create Model Library" do
   code <<-EOH
     mkdir -p /vagrant/ModelLibrary
   EOH
-  creates "/vagrant/ModelLibrary
+  creates "/vagrant/ModelLibrary"
 end
 
 bash "checkout gem5" do
@@ -23,7 +23,7 @@ bash "checkout gem5" do
     cd gem5
     hg checkout stable_2012_06_28
   EOH
-  creates "/vagrant/ModelLibrary/gem5
+  creates "/vagrant/ModelLibrary/gem5"
 end
 
 cookbook_file "/vagrant/ModelLibrary/gem5/Patches.tgz" do
