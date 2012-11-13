@@ -9,7 +9,7 @@ package "m4"
 package "lua5.2"
 package "libgoogle-perftools-dev"
 
-bash "Create Model Library" do
+bash "Create_Model_Library" do
   code <<-EOH
     mkdir -p /vagrant/ModelLibrary
   EOH
