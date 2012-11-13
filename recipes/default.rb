@@ -9,33 +9,56 @@ package "m4"
 package "lua5.2"
 package "libgoogle-perftools-dev"
 
-cookbook_file "/tmp/Patches.tgz" do
+bash "Create Model Library" do
+  code <<-EOH
+    mkdir -p /vagrant/ModelLibrary
+  EOH
+  creates "/vagrant/ModelLibrary
+end
+
+bash "checkout gem5" do
+  code <<-EOH
+    cd /vagrant/ModelLibrary
+    hg clone "http://repo.gem5.org/gem5"
+    cd gem5
+    hg checkout stable_2012_06_28
+  EOH
+  creates "/vagrant/ModelLibrary/gem5
+end
+
+cookbook_file "/vagrant/ModelLibrary/gem5/Patches.tgz" do
   source "Patches.tgz"
   mode "0644"
 end
 
 
-bash "get-and-compile-GEM5" do
-  cwd Chef::Config[:file_cache_path]
+bash "Apply Paches" do
+  code <<-EOH
+     cd /vagrant/ModelLibrary/gem5
+
+    tar -zxf Patches.tgz
+
+    for file in Patches/*;
+    do
+      patch << $file;
+    done
+
+      touch Patches.applied
+    
+  EOH
+  creates "/vagrant/ModelLibrary/Patches.applied"
+end
+
+
+bash "compile-GEM5" do
+#  cwd Chef::Config[:file_cache_path]
 #  --- I think we should build here !!!!
   code <<-EOH
-    mkdir -p /vagrant/gem5
-    cd /vagrant/gem5
+     cd /vagrant/ModelLibrary/gem5
   
     echo "Building in :"
     pwd
-    hg clone "http://repo.gem5.org/gem5"
-    cd gem5
-    hg checkout stable_2012_06_28
 
-    cp /tmp/Patches.tgz .
-    tar -zxf Patches.tgz
-
-    for file in Patches/*
-    do
-      patch << ${file}
-    done
-    
     scons build/ARM/gem5.opt
 
 #  now re-build the'systemc link files
