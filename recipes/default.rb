@@ -9,7 +9,7 @@ package "m4"
 package "lua5.2"
 package "libgoogle-perftools-dev"
 
-include "chef-amba-kit"
+depends "chef-amba-kit"
 
 cookbook_file "/tmp/Patches.tgz" do
   source "Patches.tgz"
