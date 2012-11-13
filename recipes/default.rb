@@ -9,8 +9,6 @@ package "m4"
 package "lua5.2"
 package "libgoogle-perftools-dev"
 
-depends "chef-amba-kit"
-
 cookbook_file "/tmp/Patches.tgz" do
   source "Patches.tgz"
   mode "0644"
