@@ -38,9 +38,9 @@ bash "Apply Paches" do
 
     tar -zxf Patches.tgz
 
-    for file in Patches/*;
+    for f in Patches/*;
     do
-      patch << $file;
+      patch < $$f;
     done
 
       touch Patches.applied
