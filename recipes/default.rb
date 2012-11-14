@@ -50,21 +50,28 @@ bash "Apply Paches" do
 end
 
 
-bash "compile-GEM5" do
+bash "compile-GEM5-ARM" do
 #  cwd Chef::Config[:file_cache_path]
 #  --- I think we should build here !!!!
   code <<-EOH
      cd /vagrant/ModelLibrary/gem5
-  
-    echo "Building in :"
-    pwd
+     scons build/ARM/gem5.opt
+  EOH
+  creates "/vagrant/ModelLibrary/gem5/build/ARM/gem5.opt"
+end
 
-    scons build/ARM/gem5.opt
+
+bash "compile-GEM5-with-amba" do
+#  cwd Chef::Config[:file_cache_path]
+#  --- I think we should build here !!!!
+  code <<-EOH
+     cd /vagrant/ModelLibrary/gem5
+#     scons build/ARM/gem5.opt
 
 #  now re-build the'systemc link files
 
 #  now do a big 'link'.
 
   EOH
-  creates "/usr/lib/gem5"
+  creates "/vagrant/ModelLibrary/gem5/something else"
 end
