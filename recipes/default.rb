@@ -8,6 +8,7 @@ package "swig"
 package "m4"
 package "lua5.2"
 package "libgoogle-perftools-dev"
+package "libxerces-c-dev"
 
 bash "Create Model Library" do
   code <<-EOH
@@ -31,6 +32,9 @@ cookbook_file "/vagrant/ModelLibrary/gem5/Patches.tgz" do
   mode "0644"
 end
 
+remote_directory "/vagrant/ModelLibrary/gem5/amba_wrap" do
+  source "amba_wrap"
+end
 
 bash "Apply Paches" do
   code <<-EOH
