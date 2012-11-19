@@ -2,7 +2,7 @@
 package "mercurial"
 package "git"
 package "scons"
-package "build-essentials"
+package "build-essential"
 package "libc-dev"
 package "make"
 package "gcc-4.4"
