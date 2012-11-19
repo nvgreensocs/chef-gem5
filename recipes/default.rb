@@ -1,5 +1,6 @@
 
 package "mercurial"
+package "git"
 package "scons"
 package "gcc"
 package "g++"
@@ -17,6 +18,7 @@ bash "Create Model Library" do
   creates "/vagrant/ModelLibrary"
 end
 
+
 bash "checkout gem5" do
   code <<-EOH
     cd /vagrant/ModelLibrary
@@ -32,9 +34,6 @@ cookbook_file "/vagrant/ModelLibrary/gem5/Patches.tgz" do
   mode "0644"
 end
 
-remote_directory "/vagrant/ModelLibrary/gem5/amba_wrap" do
-  source "amba_wrap"
-end
 
 bash "Apply Paches" do
   code <<-EOH
@@ -64,3 +63,10 @@ bash "compile-GEM5-ARM" do
   creates "/vagrant/ModelLibrary/gem5/build/ARM/gem5.opt"
 end
 
+bash "checkout gem5_ArmA15" do
+  code <<-EOH
+    cd /vagrant/ModelLibrary
+    git clone "git://git.greensocs.com/gem5_ArmA15"
+  EOH
+  creates "/vagrant/ModelLibrary/gem5_ArmA15"
+end
