@@ -64,19 +64,3 @@ bash "compile-GEM5-ARM" do
   creates "/vagrant/ModelLibrary/gem5/build/ARM/gem5.opt"
 end
 
-
-bash "compile-GEM5-with-amba" do
-#  cwd Chef::Config[:file_cache_path]
-#  --- I think we should build here !!!!
-  code <<-EOH
-     cd /vagrant/ModelLibrary/gem5
-
-     scons install mode=cortex_tb_release
-#  now re-build the'systemc link files
-
-  exit -1
-#  now do a big 'link'.
-
-  EOH
-  creates "/vagrant/ModelLibrary/gem5/something_else"
-end
