@@ -46,7 +46,7 @@ bash "Apply Paches" do
 
     for file in Patches/*;
     do
-      patch < $file;
+      patch -p1 < $file;
     done
 
       touch Patches.applied
