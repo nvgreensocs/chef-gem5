@@ -30,7 +30,7 @@ bash "checkout gem5" do
     hg checkout stable_2012_06_28
   EOH
   creates "/vagrant/ModelLibrary/gem5"
-  environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
+  environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
 end
 
 cookbook_file "/vagrant/ModelLibrary/gem5/Patches.tgz" do
