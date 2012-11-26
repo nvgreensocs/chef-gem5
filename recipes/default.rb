@@ -70,7 +70,7 @@ end
 git "checkout gem5_ArmA15" do
   repository "git://git.greensocs.com/gem5_ArmA15"
   reference "master"
-  destination "/vagrant/ModelLibrary/gem5_ArmA15"
+  destination "/vagrant/ModelLibrary/gem5_ArmA15"
   action :checkout
 end
 
