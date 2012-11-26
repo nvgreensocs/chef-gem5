@@ -67,10 +67,17 @@ bash "compile-GEM5-ARM" do
   creates "/vagrant/ModelLibrary/gem5/build/ARM/gem5.opt"
 end
 
-bash "checkout gem5_ArmA15" do
-  code <<-EOH
-    cd /vagrant/ModelLibrary
-    git clone "git://git.greensocs.com/gem5_ArmA15"
-  EOH
-  creates "/vagrant/ModelLibrary/gem5_ArmA15"
+git "checkout gem5_ArmA15" do
+  repository "git://git.greensocs.com/gem5_ArmA15"
+  reference "master"
+  destination "/vagrant/ModelLibrary/gem5_ArmA15"
+  action :checkout
 end
+
+#bash "checkout gem5_ArmA15" do
+#  code <<-EOH
+#    cd /vagrant/ModelLibrary
+#    git clone "git://git.greensocs.com/gem5_ArmA15"
+#  EOH
+#  creates "/vagrant/ModelLibrary/gem5_ArmA15"
+#end
