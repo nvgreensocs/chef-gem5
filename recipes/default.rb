@@ -77,7 +77,7 @@ ruby_block "compile-GEM5-ARM" do
    EOH
     ) { |f| puts f.gets }
   end
-  creates "/vagrant/ModelLibrary/gem5/build/ARM/gem5.opt"
+#  creates "/vagrant/ModelLibrary/gem5/build/ARM/gem5.opt"
 end
 
 git "checkout gem5_ArmA15" do
