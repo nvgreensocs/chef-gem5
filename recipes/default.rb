@@ -39,47 +39,44 @@ cookbook_file "/vagrant/ModelLibrary/gem5/Patches.tgz" do
 end
 
 
-ruby_block "try something" do
-  block do
-    IO.popen("date") { |f| puts f.gets }
-    sleep 1
-    Chef::Log.info('Some useful information1')
-    sleep 1
-    Chef::Log.info('Some useful information2')
-    sleep 1
-    Chef::Log.info('Some useful information3')
-    sleep 1
-    Chef::Log.info('Some useful information4')
-  end
-  action :create
-end
 
-bash "Apply Paches" do
-  code <<-EOH
-    set -e
-     cd /vagrant/ModelLibrary/gem5
+# bash "Apply Paches" do
+#   code <<-EOH
+#     set -e
+#      cd /vagrant/ModelLibrary/gem5
 
-    tar -zxf Patches.tgz
+#     tar -zxf Patches.tgz
 
-    for file in Patches/*;
-    do
-      patch -t -p1 < $file || (echo "Patch failed" ; exit -1)
-    done
+#     for file in Patches/*;
+#     do
+#       patch -t -p1 < $file || (echo "Patch failed" ; exit -1)
+#     done
 
-      touch Patches.applied
+#       touch Patches.applied
     
-  EOH
-  creates "/vagrant/ModelLibrary/gem5/Patches.applied"
-end
+#   EOH
+#   creates "/vagrant/ModelLibrary/gem5/Patches.applied"
+# end
 
 
-bash "compile-GEM5-ARM" do
-#  cwd Chef::Config[:file_cache_path]
-#  --- I think we should build here !!!!
-  code <<-EOH
+#bash "compile-GEM5-ARM" do
+##  cwd Chef::Config[:file_cache_path]
+##  --- I think we should build here !!!!
+#  code <<-EOH
+#     cd /vagrant/ModelLibrary/gem5
+#     scons build/ARM/gem5.opt
+#  EOH
+#  creates "/vagrant/ModelLibrary/gem5/build/ARM/gem5.opt"
+#end
+
+ruby_block "compile-GEM5-ARM" do
+  block do
+    IO.popen( <<-EOH
      cd /vagrant/ModelLibrary/gem5
      scons build/ARM/gem5.opt
-  EOH
+   EOH
+    ) { |f| puts f.gets }
+  end
   creates "/vagrant/ModelLibrary/gem5/build/ARM/gem5.opt"
 end
 
