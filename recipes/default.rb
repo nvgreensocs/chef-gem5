@@ -25,8 +25,8 @@ end
 bash "checkout gem5" do
   code <<-EOH
     cd /vagrant/ModelLibrary
-    hg clone "http://repo.gem5.org/gem5"
-    cd gem5
+    hg clone "http://repo.gem5.org/gem5" -r 9357
+#    cd gem5
 #    hg checkout stable_2012_06_28
   EOH
   creates "/vagrant/ModelLibrary/gem5"
@@ -62,16 +62,19 @@ end
 ruby_block "compile-GEM5-ARM" do
   block do
     IO.popen( <<-EOH
-     cd /vagrant/ModelLibrary/gem5
-     scons build/ARM/gem5.opt
-   EOH
-	     ) { |f|  f.each_line { |line| puts line } }
+       cd /vagrant/ModelLibrary/gem5
+       scons build/ARM/gem5.opt
+     EOH
+   ) { |f|  f.each_line { |line| puts line } }
   end
 #  creates "/vagrant/ModelLibrary/gem5/build/ARM/gem5.opt"
 end
 
+
+ENV['http_proxy'] = Chef::Config[:http_proxy]
+
 git "checkout gem5_ArmA15" do
-  repository "git://git.greensocs.com/gem5_ArmA15"
+  repository "http://git.greensocs.com/gem5_ArmA15.git"
   reference "master"
   destination "/vagrant/ModelLibrary/gem5_ArmA15"
   action :checkout
