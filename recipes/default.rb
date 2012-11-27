@@ -39,6 +39,19 @@ cookbook_file "/vagrant/ModelLibrary/gem5/Patches.tgz" do
 end
 
 
+ruby_block "try something" do
+  block do
+    Chef::Log.info('Some useful information1')
+    sleep 1
+    Chef::Log.info('Some useful information2')
+    sleep 1
+    Chef::Log.info('Some useful information3')
+    sleep 1
+    Chef::Log.info('Some useful information4')
+  end
+  action :create
+end
+
 bash "Apply Paches" do
   code <<-EOH
     set -e
