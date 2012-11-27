@@ -27,7 +27,7 @@ bash "checkout gem5" do
     cd /vagrant/ModelLibrary
     hg clone "http://repo.gem5.org/gem5"
     cd gem5
-    hg checkout stable_2012_06_28
+#    hg checkout stable_2012_06_28
   EOH
   creates "/vagrant/ModelLibrary/gem5"
   environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
@@ -40,34 +40,24 @@ end
 
 
 
-# bash "Apply Paches" do
-#   code <<-EOH
-#     set -e
-#      cd /vagrant/ModelLibrary/gem5
+ bash "Apply Paches" do
+   code <<-EOH
+     set -e
+      cd /vagrant/ModelLibrary/gem5
 
-#     tar -zxf Patches.tgz
+     tar -zxf Patches.tgz
 
-#     for file in Patches/*;
-#     do
-#       patch -t -p1 < $file || (echo "Patch failed" ; exit -1)
-#     done
-
-#       touch Patches.applied
+     for file in Patches/*;
+     do
+       patch -t -p1 < $file || (echo "Patch failed" ; exit -1)
+     done
+       touch Patches.applied
     
-#   EOH
-#   creates "/vagrant/ModelLibrary/gem5/Patches.applied"
-# end
+   EOH
+   creates "/vagrant/ModelLibrary/gem5/Patches.applied"
+ end
 
 
-#bash "compile-GEM5-ARM" do
-##  cwd Chef::Config[:file_cache_path]
-##  --- I think we should build here !!!!
-#  code <<-EOH
-#     cd /vagrant/ModelLibrary/gem5
-#     scons build/ARM/gem5.opt
-#  EOH
-#  creates "/vagrant/ModelLibrary/gem5/build/ARM/gem5.opt"
-#end
 
 ruby_block "compile-GEM5-ARM" do
   block do
