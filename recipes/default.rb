@@ -75,7 +75,7 @@ ruby_block "compile-GEM5-ARM" do
      cd /vagrant/ModelLibrary/gem5
      scons build/ARM/gem5.opt
    EOH
-    ) { |f| puts f.gets }
+	     ) { |f|  f.each_line { |line| puts line } }
   end
 #  creates "/vagrant/ModelLibrary/gem5/build/ARM/gem5.opt"
 end
