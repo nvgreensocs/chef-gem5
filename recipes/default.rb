@@ -1,5 +1,3 @@
-require "open4"
-
 package "mercurial"
 package "git"
 package "scons"
@@ -43,6 +41,8 @@ end
 
 ruby_block "try something" do
   block do
+    IO.popen("date") { |f| puts f.gets }
+    sleep 1
     Chef::Log.info('Some useful information1')
     sleep 1
     Chef::Log.info('Some useful information2')
