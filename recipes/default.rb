@@ -41,7 +41,7 @@ end
 
 ruby_block "try something" do
   block do
-    Chef::Log.info('Some useful information1')
+    Chef::Log.info('Some useful information1'+`ls`)
     sleep 1
     Chef::Log.info('Some useful information2')
     sleep 1
