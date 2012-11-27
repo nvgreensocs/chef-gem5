@@ -41,6 +41,7 @@ end
 
 bash "Apply Paches" do
   code <<-EOH
+    set -e
      cd /vagrant/ModelLibrary/gem5
 
     tar -zxf Patches.tgz
