@@ -1,3 +1,4 @@
+require "open4"
 
 package "mercurial"
 package "git"
@@ -13,6 +14,7 @@ package "m4"
 package "lua5.2"
 package "libgoogle-perftools-dev"
 package "libxerces-c-dev"
+
 
 bash "Create Model Library" do
   code <<-EOH
@@ -41,7 +43,7 @@ end
 
 ruby_block "try something" do
   block do
-    Chef::Log.info('Some useful information1'+`ls`)
+    Chef::Log.info('Some useful information1')
     sleep 1
     Chef::Log.info('Some useful information2')
     sleep 1
