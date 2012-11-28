@@ -9,7 +9,7 @@ package "g++"
 package "python-dev"
 package "swig"
 package "m4"
-package "lua"
+package "lua5.2"
 package "libgoogle-perftools-dev"
 package "libxerces-c-dev"
 
