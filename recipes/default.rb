@@ -98,7 +98,7 @@ git "checkout gem5_ArmA15" do
   reference "master"
   destination "/vagrant/ModelLibrary/Gem5SystemC"
   action :checkout
- creates: "/vagrant/ModelLibrary/Gem5SystemC/SConstruct"
+ creates "/vagrant/ModelLibrary/Gem5SystemC/SConstruct"
 end
 
 ruby_block "compile-SYSTEMC-GEM5-ARM" do
