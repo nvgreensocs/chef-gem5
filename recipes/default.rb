@@ -94,7 +94,7 @@ end
 ENV['http_proxy'] = Chef::Config[:http_proxy]
 
 git "checkout gem5SystemC_ArmModels" do
-  repository "http://git.greensocs.com/gem5SystemC_ArmModels.git"
+  repository "git://git.greensocs.com/gem5SystemC_ArmModels.git"
   reference "master"
   destination "/vagrant/ModelLibrary/Gem5SystemC/gem5SystemC_ArmModels"
   action :checkout
