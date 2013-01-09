@@ -35,19 +35,25 @@ bash "Create Model Library" do
   creates "/vagrant/ModelLibrary"
 end
 
+bash "Create Gem5SystemC" do
+  code <<-EOH
+    mkdir -p /vagrant/ModelLibrary/Gem5SystemC
+  EOH
+  creates "/vagrant/ModelLibrary/Gem5SystemC"
+end
 
 bash "checkout gem5" do
   code <<-EOH
-    cd /vagrant/ModelLibrary
+    cd /vagrant/ModelLibrary/Gem5SystemC
     hg clone "http://repo.gem5.org/gem5" -r 9357
 #    cd gem5
 #    hg checkout stable_2012_06_28
   EOH
-  creates "/vagrant/ModelLibrary/gem5"
+  creates "/vagrant/ModelLibrary/Gem5SystemC/gem5"
   environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
 end
 
-cookbook_file "/vagrant/ModelLibrary/gem5/Patches.tgz" do
+cookbook_file "/vagrant/ModelLibrary/Gem5SystemC/gem5/Patches.tgz" do
   source "Patches.tgz"
   mode "0644"
 end
@@ -57,7 +63,7 @@ end
  bash "Apply Paches" do
    code <<-EOH
      set -e
-      cd /vagrant/ModelLibrary/gem5
+      cd /vagrant/ModelLibrary/Gem5SystemC/gem5
 
      tar -zxf Patches.tgz
 
@@ -68,7 +74,7 @@ end
        touch Patches.applied
     
    EOH
-   creates "/vagrant/ModelLibrary/gem5/Patches.applied"
+   creates "/vagrant/ModelLibrary/Gem5SystemC/gem5/Patches.applied"
  end
 
 
@@ -76,28 +82,31 @@ end
 ruby_block "compile-GEM5-ARM" do
   block do
     IO.popen( <<-EOH
-       cd /vagrant/ModelLibrary/gem5
+       cd /vagrant/ModelLibrary/Gem5SystemC/gem5
        scons build/ARM/gem5.opt
      EOH
    ) { |f|  f.each_line { |line| puts line } }
   end
-#  creates "/vagrant/ModelLibrary/gem5/build/ARM/gem5.opt"
+#  creates "/vagrant/ModelLibrary/Gem5SystemC/gem5/build/ARM/gem5.opt"
 end
 
 
 ENV['http_proxy'] = Chef::Config[:http_proxy]
 
 git "checkout gem5_ArmA15" do
-  repository "http://git.greensocs.com/gem5_ArmA15.git"
+  repository "http://git.greensocs.com/gem5SystemC_ArmModels.git"
   reference "master"
-  destination "/vagrant/ModelLibrary/gem5_ArmA15"
+  destination "/vagrant/ModelLibrary/Gem5SystemC"
   action :checkout
 end
 
-#bash "checkout gem5_ArmA15" do
-#  code <<-EOH
-#    cd /vagrant/ModelLibrary
-#    git clone "git://git.greensocs.com/gem5_ArmA15"
-#  EOH
-#  creates "/vagrant/ModelLibrary/gem5_ArmA15"
-#end
+ruby_block "compile-SYSTEMC-GEM5-ARM" do
+  block do
+    IO.popen( <<-EOH
+       cd /vagrant/ModelLibrary/Gem5SystemC/
+       scons
+     EOH
+   ) { |f|  f.each_line { |line| puts line } }
+  end
+#  creates "/vagrant/ModelLibrary/Gem5SystemC/gem5/lib"
+end
