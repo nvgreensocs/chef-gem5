@@ -35,12 +35,19 @@ bash "Create Model Library" do
   creates "/vagrant/ModelLibrary"
 end
 
-bash "Create Gem5SystemC" do
-  code <<-EOH
-    mkdir -p /vagrant/ModelLibrary/Gem5SystemC
-  EOH
-  creates "/vagrant/ModelLibrary/Gem5SystemC"
+git "checkout gem5SystemC_ArmModels" do
+  repository "git://git.greensocs.com/gem5SystemC_ArmModels.git"
+  reference "master"
+  destination "/vagrant/ModelLibrary/Gem5SystemC"
+  action :checkout
 end
+
+#bash "Create Gem5SystemC" do
+#  code <<-EOH
+#    mkdir -p /vagrant/ModelLibrary/Gem5SystemC
+#  EOH
+#  creates "/vagrant/ModelLibrary/Gem5SystemC"
+#end
 
 bash "checkout gem5" do
   code <<-EOH
@@ -93,12 +100,6 @@ end
 
 ENV['http_proxy'] = Chef::Config[:http_proxy]
 
-git "checkout gem5SystemC_ArmModels" do
-  repository "git://git.greensocs.com/gem5SystemC_ArmModels.git"
-  reference "master"
-  destination "/vagrant/ModelLibrary/Gem5SystemC/gem5SystemC_ArmModels"
-  action :checkout
-end
 
 ruby_block "compile-SYSTEMC-GEM5-ARM" do
   block do
