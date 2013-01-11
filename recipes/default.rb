@@ -40,8 +40,15 @@ bash "Create Gem5SystemC" do
   code <<-EOH
     git clone -b HEAD git://git.greensocs.com/gem5SystemC_ArmModels.git /vagrant/ModelLibrary/Gem5SystemC
   EOH
-#  creates "/vagrant/ModelLibrary/Gem5SystemC"
-# make it run every time for now !
+  creates "/vagrant/ModelLibrary/Gem5SystemC"
+  environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
+end
+
+bash "Update Gem5SystemC" do
+  code <<-EOH
+    cd /vagrant/ModelLibrary/Gem5SystemC
+    git pull
+  EOH
   environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
 end
 
