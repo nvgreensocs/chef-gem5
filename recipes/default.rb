@@ -40,7 +40,7 @@ git "checkout gem5SystemC_ArmModels" do
   reference "master"
   destination "/vagrant/ModelLibrary/Gem5SystemC"
   action :checkout
-  environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
+#  environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
 end
 
 #bash "Create Gem5SystemC" do
