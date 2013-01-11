@@ -47,7 +47,7 @@ end
 bash "Update Gem5SystemC" do
   code <<-EOH
     cd /vagrant/ModelLibrary/Gem5SystemC
-    git pull
+    git pull origin master
   EOH
   environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
 end
