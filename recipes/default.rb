@@ -38,7 +38,8 @@ end
 
 bash "Create Gem5SystemC" do
   code <<-EOH
-    git clone -b HEAD git://git.greensocs.com/gem5SystemC_ArmModels.git /vagrant/ModelLibrary/Gem5SystemC
+# need to specify branch
+    git clone  git://git.greensocs.com/gem5SystemC_ArmModels.git /vagrant/ModelLibrary/Gem5SystemC
   EOH
   creates "/vagrant/ModelLibrary/Gem5SystemC"
   environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
