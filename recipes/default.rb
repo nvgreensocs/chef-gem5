@@ -39,6 +39,7 @@ bash "Apply LD_LIBRARY_PATH" do
     code <<-EOH
       grep -v 'export LD_LIBRARY_PATH ="ModelLibrary/Gem5SystemC/ArmA15/lib/:$LD_LIBRARY_PATH"' ~/.profile > /tmp/tmp.profile.$$
      echo 'export LD_LIBRARY_PATH ="ModelLibrary/Gem5SystemC/ArmA15/lib/:$LD_LIBRARY_PATH"' >> /tmp/tmp.profile.$$
+  mv /tmp/tmp.profile.$$ ~/.profile
 exit -1
   EOH
 end
