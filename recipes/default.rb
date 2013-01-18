@@ -35,6 +35,13 @@ bash "Create Model Library" do
   creates "/vagrant/ModelLibrary"
 end
 
+bash "Apply LD_LIBRARY_PATH" do
+    code <<-EOH
+      if ! grep --quiet ModelLibrary/Gem5SystemC/ArmA15/lib/  ~/.bashrc; then
+           echo 'export LD_LIBRARY_PATH ="ModelLibrary/Gem5SystemC/ArmA15/lib/:$LD_LIBRARY_PATH"' >> ~/.bashrc
+       fi
+  EOH
+end
 
 bash "Create Gem5SystemC" do
   code <<-EOH
@@ -130,3 +137,6 @@ ruby_block "compile-SYSTEMC-GEM5-ARM" do
   end
 #  creates "/vagrant/ModelLibrary/Gem5SystemC/gem5/lib"
 end
+
+
+
