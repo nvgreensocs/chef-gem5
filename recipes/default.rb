@@ -23,7 +23,8 @@ package "g++"
 package "python-dev"
 package "swig"
 package "m4"
-package "lua5.2"
+package "liblua5.2-dev" 
+#package "lua5.2"
 package "libgoogle-perftools-dev"
 package "libxerces-c-dev"
 
@@ -37,10 +38,9 @@ end
 
 bash "Apply LD_LIBRARY_PATH" do
     code <<-EOH
-      grep -v 'export LD_LIBRARY_PATH ="ModelLibrary/Gem5SystemC/ArmA15/lib/:$LD_LIBRARY_PATH"' /home/vagrant/.profile > /tmp/tmp.profile.$$
-     echo 'export LD_LIBRARY_PATH ="ModelLibrary/Gem5SystemC/ArmA15/lib/:$LD_LIBRARY_PATH"' >> /tmp/tmp.profile.$$
-  echo mv /tmp/tmp.profile.$$ /home/vagrant/.profile
-  mv -f /tmp/tmp.profile.$$ /home/vagrant/.profile
+       grep -v 'export LD_LIBRARY_PATH ="ModelLibrary/Gem5SystemC/ArmA15/lib/:$LD_LIBRARY_PATH"' /home/vagrant/.profile > /tmp/tmp.profile.$$
+       echo 'export LD_LIBRARY_PATH="ModelLibrary/Gem5SystemC/ArmA15/lib/:$LD_LIBRARY_PATH"' >> /tmp/tmp.profile.$$
+       mv -f /tmp/tmp.profile.$$ /home/vagrant/.profile
   EOH
 end
 
