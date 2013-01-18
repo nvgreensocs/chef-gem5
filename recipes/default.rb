@@ -37,7 +37,7 @@ end
 
 bash "Apply LD_LIBRARY_PATH" do
     code <<-EOH
-      if ! grep --quiet ModelLibrary/Gem5SystemC/ArmA15/lib/  ~/.bashrc; then
+      if ! grep --quiet ModelLibrary/Gem5SystemC/ArmA15/lib/  /home/vagrant/.bashrc; then
            echo 'export LD_LIBRARY_PATH ="ModelLibrary/Gem5SystemC/ArmA15/lib/:$LD_LIBRARY_PATH"' >> ~/.bashrc
        fi
   EOH
