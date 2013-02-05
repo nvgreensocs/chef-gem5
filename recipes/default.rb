@@ -31,9 +31,9 @@ package "libxerces-c-dev"
 
 bash "Create Model Library" do
   code <<-EOH
-    mkdir -p /vagrant/ModelLibrary
+    mkdir -p #{node[:prefix]}/ModelLibrary
   EOH
-  creates "/vagrant/ModelLibrary"
+  creates "#{node[:prefix]}/ModelLibrary"
 end
 
 bash "Apply LD_LIBRARY_PATH" do
@@ -47,15 +47,15 @@ end
 bash "Create Gem5SystemC" do
   code <<-EOH
 # need to specify branch
-    git clone  git://git.greensocs.com/gem5SystemC_ArmModels.git /vagrant/ModelLibrary/Gem5SystemC
+    git clone  git://git.greensocs.com/gem5SystemC_ArmModels.git #{node[:prefix]}/ModelLibrary/Gem5SystemC
   EOH
-  creates "/vagrant/ModelLibrary/Gem5SystemC"
+  creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC"
   environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
 end
 
 bash "Update Gem5SystemC" do
   code <<-EOH
-    cd /vagrant/ModelLibrary/Gem5SystemC
+    cd #{node[:prefix]}/ModelLibrary/Gem5SystemC
     git pull origin master
   EOH
   environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
@@ -64,30 +64,30 @@ end
 #git "checkout gem5SystemC_ArmModels" do
 #  repository "git://git.greensocs.com/gem5SystemC_ArmModels.git"
 #  reference "master"
-#  destination "/vagrant/ModelLibrary/Gem5SystemC"
+#  destination "#{node[:prefix]}/ModelLibrary/Gem5SystemC"
 #  action :checkout
 ##  environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
 #end
 
 #bash "Create Gem5SystemC" do
 #  code <<-EOH
-#    mkdir -p /vagrant/ModelLibrary/Gem5SystemC
+#    mkdir -p #{node[:prefix]}/ModelLibrary/Gem5SystemC
 #  EOH
-#  creates "/vagrant/ModelLibrary/Gem5SystemC"
+#  creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC"
 #end
 
 bash "checkout gem5" do
   code <<-EOH
-    cd /vagrant/ModelLibrary/Gem5SystemC
+    cd #{node[:prefix]}/ModelLibrary/Gem5SystemC
     hg clone "http://repo.gem5.org/gem5" -r 9357
 #    cd gem5
 #    hg checkout stable_2012_06_28
   EOH
-  creates "/vagrant/ModelLibrary/Gem5SystemC/gem5"
+  creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5"
   environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
 end
 
-cookbook_file "/vagrant/ModelLibrary/Gem5SystemC/gem5/Patches.tgz" do
+cookbook_file "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5/Patches.tgz" do
   source "Patches.tgz"
   mode "0644"
 end
@@ -97,7 +97,7 @@ end
  bash "Apply Paches" do
    code <<-EOH
      set -e
-      cd /vagrant/ModelLibrary/Gem5SystemC/gem5
+      cd #{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5
 
      tar -zxf Patches.tgz
 
@@ -108,7 +108,7 @@ end
        touch Patches.applied
     
    EOH
-   creates "/vagrant/ModelLibrary/Gem5SystemC/gem5/Patches.applied"
+   creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5/Patches.applied"
  end
 
 
@@ -116,12 +116,12 @@ end
 ruby_block "compile-GEM5-ARM" do
   block do
     IO.popen( <<-EOH
-       cd /vagrant/ModelLibrary/Gem5SystemC/gem5
+       cd #{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5
        scons build/ARM/gem5.opt
      EOH
    ) { |f|  f.each_line { |line| puts line } }
   end
-#  creates "/vagrant/ModelLibrary/Gem5SystemC/gem5/build/ARM/gem5.opt"
+#  creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5/build/ARM/gem5.opt"
 end
 
 
@@ -131,12 +131,12 @@ ENV['http_proxy'] = Chef::Config[:http_proxy]
 ruby_block "compile-SYSTEMC-GEM5-ARM" do
   block do
     IO.popen( <<-EOH
-       cd /vagrant/ModelLibrary/Gem5SystemC/
+       cd #{node[:prefix]}/ModelLibrary/Gem5SystemC/
        scons
      EOH
    ) { |f|  f.each_line { |line| puts line } }
   end
-#  creates "/vagrant/ModelLibrary/Gem5SystemC/gem5/lib"
+#  creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5/lib"
 end
 
 
