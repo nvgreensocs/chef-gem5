@@ -12,21 +12,21 @@
 # 
 # ENDLICENSETEXT
 
-package "mercurial"
-package "git"
-package "scons"
-package "build-essential"
-package "libc-dev"
-package "make"
-package "gcc"
-package "g++"
-package "python-dev"
-package "swig"
-package "m4"
-package "liblua5.2-dev" 
-#package "lua5.2"
-package "libgoogle-perftools-dev"
-package "libxerces-c-dev"
+#add these packages to your versions recipy
+#package "mercurial"
+#package "git"
+#package "scons"
+#package "build-essential"
+#package "libc-dev"
+#package "make"
+#package "gcc"
+#package "g++"
+#package "python-dev"
+#package "swig"
+#package "m4"
+#package "liblua5.2-dev" 
+#package "libgoogle-perftools-dev"
+#package "libxerces-c-dev"
 
 
 bash "Create Model Library" do
@@ -38,9 +38,12 @@ end
 
 bash "Apply LD_LIBRARY_PATH" do
     code <<-EOH
-       grep -v 'export LD_LIBRARY_PATH="ModelLibrary/Gem5SystemC/ArmA15/lib/:$LD_LIBRARY_PATH"' /etc/profile > /tmp/tmp.profile.$$
-       echo 'export LD_LIBRARY_PATH="ModelLibrary/Gem5SystemC/ArmA15/lib/:$LD_LIBRARY_PATH"' >> /tmp/tmp.profile.$$
-       mv -f /tmp/tmp.profile.$$ /etc/profile
+   if [ -w /etc/ld.so.conf.d ]
+   then
+    echo "#{node[:prefix]}/ModelLibrary/Gem5SystemC/ArmA15/lib/" > /etc/ld.so.conf.d/gem5_armA15.conf
+    fi
+    mkdir -p "#{node[:prefix]}/bash.profile.d"
+    echo 'export LD_LIBRARY_PATH="#{node[:prefix]}/ModelLibrary/Gem5SystemC/ArmA15/lib/:$LD_LIBRARY_PATH"' > "#{node[:prefix]}/bash.profile.d/gem5_armA15.profile"
   EOH
 end
 
