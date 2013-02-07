@@ -136,6 +136,8 @@ ruby_block "compile-SYSTEMC-GEM5-ARM" do
   block do
      IO.popen( ["bash", "-c", <<-EOH
        for i in #{node[:prefix]}/bash.profile.d/* ; do source $i ; done
+echo "HELLO"
+echo $SYSTEMC_HOME
        cd #{node[:prefix]}/ModelLibrary/Gem5SystemC/
        scons
      EOH
