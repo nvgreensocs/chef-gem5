@@ -119,7 +119,7 @@ end
 ruby_block "compile-GEM5-ARM" do
   block do
     IO.popen( <<-EOH
-       for i in #{node[:prexix}/bash.profile.d/* ; do source $i ; done
+       for i in #{node[:prexix]}/bash.profile.d/* ; do source $i ; done
        cd #{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5
        scons build/ARM/gem5.opt
      EOH
