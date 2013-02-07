@@ -123,7 +123,7 @@ ruby_block "compile-GEM5-ARM" do
        cd #{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5
        scons build/ARM/gem5.opt
      EOH
-     , :err=>[:child, :out]] ) { |f|  f.each_line { |line| puts line } }
+     :err=>[:child, :out]] ) { |f|  f.each_line { |line| puts line } }
  end
 #  creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5/build/ARM/gem5.opt"
 end
