@@ -122,7 +122,7 @@ ruby_block "compile-GEM5-ARM" do
        for i in #{node[:prexix]}/bash.profile.d/* ; do source $i ; done
        cd #{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5
        scons build/ARM/gem5.opt
-     EOH, :err=>[:child, :out]]
+     EOH
    ) { |f|  f.each_line { |line| puts line } }
  end
 #  creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5/build/ARM/gem5.opt"
