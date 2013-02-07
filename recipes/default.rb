@@ -119,7 +119,7 @@ end
 ruby_block "compile-GEM5-ARM" do
   block do
      IO.popen( ["bash", "-c", <<-EOH
-       for i in #{node[:prexix]}/bash.profile.d/* ; do source $i ; done
+       for i in #{node[:prefix]}/bash.profile.d/* ; do source $i ; done
        cd #{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5
        scons build/ARM/gem5.opt
      EOH
@@ -134,12 +134,12 @@ ENV['http_proxy'] = Chef::Config[:http_proxy]
 
 ruby_block "compile-SYSTEMC-GEM5-ARM" do
   block do
-    IO.popen( <<-EOH
-       for i in #{node[:prexix]}/bash.profile.d/* ; do source $i ; done
+     IO.popen( ["bash", "-c", <<-EOH
+       for i in #{node[:prefix]}/bash.profile.d/* ; do source $i ; done
        cd #{node[:prefix]}/ModelLibrary/Gem5SystemC/
        scons
      EOH
-   ) { |f|  f.each_line { |line| puts line } }
+  ] ) { |f|  f.each_line { |line| puts line } }
   end
 #  creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5/lib"
 end
