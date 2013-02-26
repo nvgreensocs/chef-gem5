@@ -50,7 +50,7 @@ end
 bash "Create Gem5SystemC" do
   code <<-EOH
 # need to specify branch
-    git clone  git://git.greensocs.com/gem5SystemC_ArmModels.git #{node[:prefix]}/ModelLibrary/Gem5SystemC
+    git clone git://projects.greensocs.com/gem5-systemc-armmodel.git #{node[:prefix]}/ModelLibrary/Gem5SystemC
   EOH
   creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC"
   environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
