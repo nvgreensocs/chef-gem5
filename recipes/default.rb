@@ -53,7 +53,10 @@ bash "Create Gem5SystemC" do
     git clone git://projects.greensocs.com/gem5-systemc-armmodel.git #{node[:prefix]}/ModelLibrary/Gem5SystemC
   EOH
   creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC"
-  environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
+  if Chef::Config[:http_proxy]
+    environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
+    environment ({ 'GIT_PROXY_COMMAND' => "/tmp/gitproxy" })
+  end
 end
 
 bash "Update Gem5SystemC" do
@@ -61,7 +64,10 @@ bash "Update Gem5SystemC" do
     cd #{node[:prefix]}/ModelLibrary/Gem5SystemC
     git pull origin master
   EOH
-  environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
+  if Chef::Config[:http_proxy]
+    environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
+    environment ({ 'GIT_PROXY_COMMAND' => "/tmp/gitproxy" })
+  end
 end
 
 #git "checkout gem5SystemC_ArmModels" do
@@ -82,12 +88,16 @@ end
 bash "checkout gem5" do
   code <<-EOH
     cd #{node[:prefix]}/ModelLibrary/Gem5SystemC
-    hg clone "http://repo.gem5.org/gem5" -r 9357
+#rev 9562 is from 20 - 02 - 2013 
+    hg clone "http://repo.gem5.org/gem5" -r 9562
 #    cd gem5
 #    hg checkout stable_2012_06_28
   EOH
   creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5"
-  environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
+  if Chef::Config[:http_proxy]
+    environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
+    environment ({ 'GIT_PROXY_COMMAND' => "/tmp/gitproxy" })
+  end
 end
 
 cookbook_file "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5/Patches.tgz" do
@@ -121,11 +131,11 @@ ruby_block "compile-GEM5-ARM" do
      IO.popen( <<-EOH
        for i in #{node[:prefix]}/bash.profile.d/*; do . $i; done
        cd #{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5
-       scons build/ARM/gem5.opt
+       scons sysc_build/ARM/gem5.opt
      EOH
      ) { |f|  f.each_line { |line| puts line } }
  end
-#  creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5/build/ARM/gem5.opt"
+ #creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5/sysc_build/ARM/gem5.opt"
 end
 
 
