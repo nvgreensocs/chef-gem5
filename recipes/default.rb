@@ -53,10 +53,6 @@ bash "Create Gem5SystemC" do
     git clone git://projects.greensocs.com/gem5-systemc-armmodel.git #{node[:prefix]}/ModelLibrary/Gem5SystemC
   EOH
   creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC"
-  if Chef::Config[:http_proxy]
-    environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
-    environment ({ 'GIT_PROXY_COMMAND' => "/tmp/gitproxy" })
-  end
 end
 
 bash "Update Gem5SystemC" do
@@ -64,10 +60,6 @@ bash "Update Gem5SystemC" do
     cd #{node[:prefix]}/ModelLibrary/Gem5SystemC
     git pull origin master
   EOH
-  if Chef::Config[:http_proxy]
-    environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
-    environment ({ 'GIT_PROXY_COMMAND' => "/tmp/gitproxy" })
-  end
 end
 
 #git "checkout gem5SystemC_ArmModels" do
@@ -94,10 +86,6 @@ bash "checkout gem5" do
 #    hg checkout stable_2012_06_28
   EOH
   creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5"
-  if Chef::Config[:http_proxy]
-    environment ({ 'http_proxy' => Chef::Config[:http_proxy] })
-    environment ({ 'GIT_PROXY_COMMAND' => "/tmp/gitproxy" })
-  end
 end
 
 cookbook_file "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5/Patches.tgz" do
@@ -137,9 +125,6 @@ ruby_block "compile-GEM5-ARM" do
  end
  #creates "#{node[:prefix]}/ModelLibrary/Gem5SystemC/gem5/sysc_build/ARM/gem5.opt"
 end
-
-
-ENV['http_proxy'] = Chef::Config[:http_proxy]
 
 
 ruby_block "compile-SYSTEMC-GEM5-ARM" do
