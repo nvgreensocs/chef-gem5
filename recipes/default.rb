@@ -66,7 +66,7 @@ bash "Update Gem5SystemC" do
   for i in #{node[:prefix]}/bash.profile.d/*; do . $i; done
 
     cd #{node[:prefix]}/ModelLibrary/Gem5SystemC
-#    git pull origin master
+    git pull origin master
     git reset --hard $gem5_systemc_armmodel
 
   EOH
